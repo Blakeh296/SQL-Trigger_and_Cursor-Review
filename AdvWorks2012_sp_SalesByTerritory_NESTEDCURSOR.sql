@@ -1,7 +1,10 @@
+
+													/************ EXEC STATEMENT @ BOTTOM ************/
+
 USE AdventureWorks2012
 GO
 
-ALTER PROC sp_SalesByTerritoryByYear
+CREATE PROC sp_SalesByTerritoryByYear
 	@year DATE
 AS
 BEGIN
@@ -66,16 +69,3 @@ DEALLOCATE salesTerritory_cursor;
 END
 
 --EXEC sp_SalesByTerritoryByYear @year = '2006'
-
-
-/*use [AdventureWorks2012] 
-GO
-
-	SELECT * FROM [Sales].[SalesOrderHeader];
-
-	SELECT * FROM [Sales].[SalesTerritory];--[Sales].[SalesPerson];
-
-	SELECT SUM(soh.TotalDue) as 'Total_Sales',  st.Name 
-    FROM  [Sales].[SalesTerritory] st, [Sales].[SalesOrderHeader] soh
-    WHERE soh.OrderDate = '2006' AND soh.TerritoryID = st.TerritoryID  
-	GROUP BY st.name;*/
