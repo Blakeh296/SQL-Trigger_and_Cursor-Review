@@ -1,9 +1,16 @@
+USE AdventureWorks2012
+GO
+
+ALTER PROC sp_SalesByTerritoryByYear
+	@year DATE
+AS
+BEGIN
 SET NOCOUNT ON;  
 
 DECLARE @territory_ID int, @territory_Name nvarchar(50),  
-    @message varchar(80), @sales nvarchar(50), @year datetime = '2006';  
+    @message varchar(80), @sales nvarchar(50);  
 
-PRINT '-------- Sales By Territory By Year Report --------';  
+PRINT '-------- Sales By Territory Report FOR YEAR: '+CAST(left(@year, 4) as varchar(100))+' --------';  
 
 DECLARE salesTerritory_cursor CURSOR FOR   
 SELECT [TerritoryID], [Name]  
@@ -27,7 +34,7 @@ BEGIN
     -- on territory_ID from the outer cursor.  
 
     DECLARE sales_cursor CURSOR FOR   
-    SELECT SUM(soh.TotalDue) as 'Total_Sales'--, @territory_Name  
+    SELECT SUM(soh.TotalDue) as 'Total_Sales'  
     FROM [Sales].[SalesOrderHeader] soh
 	INNER JOIN [Sales].[SalesTerritory] st
 	ON soh.TerritoryID = st.TerritoryID
@@ -56,6 +63,9 @@ BEGIN
 END   
 CLOSE salesTerritory_cursor;  
 DEALLOCATE salesTerritory_cursor; 
+END
+
+--EXEC sp_SalesByTerritoryByYear @year = '2006'
 
 
 /*use [AdventureWorks2012] 
