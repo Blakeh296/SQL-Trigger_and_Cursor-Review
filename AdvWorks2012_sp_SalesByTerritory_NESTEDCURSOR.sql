@@ -4,7 +4,7 @@
 USE AdventureWorks2012
 GO
 
-CREATE PROC sp_SalesByTerritoryByYear
+ALTER PROC sp_SalesByTerritoryByYear
 	@year DATE
 AS
 BEGIN

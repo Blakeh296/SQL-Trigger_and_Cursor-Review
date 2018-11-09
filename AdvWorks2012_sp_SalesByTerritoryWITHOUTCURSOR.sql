@@ -4,12 +4,12 @@
 USE AdventureWorks2012
 GO
 
-CREATE PROC sp_SalesByTerritoryWITHOUTCURSOR
+ALTER PROC sp_SalesByTerritoryWITHOUTCURSOR
 	@year as date
 AS
 	BEGIN
-			SELECT   MAX(st.TerritoryID) as Territory_ID, st.Name as Territory_Name
-			,ROUND(SUM(soh.TotalDue), 2) as Total_Sales, LEFT(@year, 4) as Fiscal_Year
+			SELECT   MAX(st.TerritoryID) [Territory_ID], st.Name [Territory_Name]
+			, COUNT(soh.SalesOrderID) [Count_of_Sales], ROUND(SUM(soh.TotalDue), 2) [Total_Sales], LEFT(@year, 4) [Fiscal_Year]
 
 			FROM  [Sales].[SalesOrderHeader] soh
 			INNER JOIN [Sales].[SalesTerritory] st
@@ -17,7 +17,7 @@ AS
 
 			WHERE soh.OrderDate = @year AND soh.TerritoryID = st.TerritoryID  
 			GROUP BY st.Name
-			ORDER BY st.Name desc;
+			ORDER BY st.Name;
 	END
 
---EXEC sp_SalesByTerritoryWITHOUTCURSOR @year = '2006' 
+--EXEC sp_SalesByTerritoryWITHOUTCURSOR @year = '2008' 
